@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="lokesh.shutterstock.viewmodel.ShutterImagesViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="lokesh.shutterstock.view.ShutterImageActivity"
+        android:background="@android:color/black">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        <LinearLayout
+            app:visibility="@{viewModel.showFirstBatchProgress ? View.VISIBLE: View.GONE}"
+            android:id="@+id/progressLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/toolbar"
+            android:padding="20dp"
+            tools:visibility="visible"
+            android:layout_centerHorizontal="true">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="Loading..Please wait"
+                android:id="@+id/progressText"
+                android:textColor="@color/colorWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            app:visibility="@{viewModel.showInfo ? View.VISIBLE: View.GONE}"
+            android:id="@+id/infoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/toolbar"
+            android:padding="20dp"
+            tools:visibility="visible"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:text="@{viewModel.infoMessage}"
+                android:id="@+id/infoText"
+                android:textColor="@color/colorWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/retryBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/icons"
+                android:onClick="@{viewModel.getRetryButton_clicked}"
+                android:text="Retry"
+                android:textColor="@color/colorPrimary" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:background="@android:color/black"
+            android:overScrollMode="always"
+            android:scrollbars="vertical"
+            android:clipToPadding="false"
+            android:padding="2dp"
+            app:visibility="@{viewModel.showRecyclerView ? View.VISIBLE: View.GONE}" />
+    </RelativeLayout>
+</layout>
