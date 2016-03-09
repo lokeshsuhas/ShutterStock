@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            app:visibility="@{viewModel.accessToken == null ? View.GONE : View.VISIBLE}"
+            app:visibility="@{viewModel.token == null ? View.GONE : View.VISIBLE}"
             android:layout_marginBottom="16dp"
             />
 
@@ -34,7 +34,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"
             android:background="@color/icons"
-            app:visibility="@{viewModel.accessToken != null ? View.GONE : View.VISIBLE}"
+            app:visibility="@{viewModel.token != null ? View.GONE : View.VISIBLE}"
             android:onClick="@{viewModel.getloginButton_clicked}"
             android:text="@string/xml_login"
             android:textColor="@color/colorPrimary" />

@@ -15,7 +15,7 @@ public class AuthViewModel implements IViewModel {
 
     public AuthViewModel(Context context) {
         showProgress = new ObservableBoolean(true);
-        progressText = new ObservableField<>(context.getResources().getString(R.string.progress_auth_webview));
+        progressText = new ObservableField<>(context.getResources().getString(R.string.progress_text));
     }
 
     /***
