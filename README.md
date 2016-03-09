@@ -1,7 +1,11 @@
 # ShutterStock
 Shutter Stock Images API app using MVVM ,RXJava, Dagger2
 
+##Flow Diagram
+![Image of Flow Diagram](https://github.com/lokeshsuhas/ShutterStock/blob/master/Images/FlowDiagram.png)
 
+##Project structure
+![Image of Project Structure](https://github.com/lokeshsuhas/ShutterStock/blob/master/Images/projectstructure.png)
 
 
 ##External Libraries
@@ -77,6 +81,11 @@ Password: l0kesh@1
 *	State maintenance on orientation change
 *	Grid adaption based on orientation.
 
-##ScreenShots
+##Screenshots
+###Landscape
+![Landscape](https://github.com/lokeshsuhas/ShutterStock/blob/master/Images/landsacpe.png)
+
+###Portrait
+![Portrait](https://github.com/lokeshsuhas/ShutterStock/blob/master/Images/portrait.png)
 
 
