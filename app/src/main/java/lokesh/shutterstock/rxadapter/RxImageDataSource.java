@@ -127,6 +127,7 @@ public class RxImageDataSource {
                         picasso.load(Uri.parse(item.getAssets().getPreview().getUrl()))
                                 .resize(viewHolder.getWidth(), viewHolder.getHeight())
                                 .centerCrop()
+                                .noFade()
                                 .placeholder(R.mipmap.ic_launcher)
                                 .into(iB.shutterImageView);
                     } else {
