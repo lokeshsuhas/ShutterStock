@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".view.ShutterImageActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 
 </manifest>
