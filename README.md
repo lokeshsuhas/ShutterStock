@@ -1,6 +1,9 @@
 # ShutterStock
 Shutter Stock Images API app using MVVM ,RXJava, Dagger2
 
+##Download APK
+[Shutter Stock App](https://github.com/lokeshsuhas/ShutterStock/blob/master/APK/ShutterStock.apk)
+
 ##Flow Diagram
 ![Image of Flow Diagram](https://github.com/lokeshsuhas/ShutterStock/blob/master/Images/FlowDiagram.png)
 
