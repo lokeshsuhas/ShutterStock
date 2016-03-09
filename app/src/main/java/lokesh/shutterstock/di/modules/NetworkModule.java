@@ -17,11 +17,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import lokesh.shutterstock.Constants;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -56,26 +54,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(SharedPreferences preferences) {
-        final String token = preferences.getString(Constants.SP_ACCESS_TOKEN, null);
-
+    OkHttpClient provideOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        if (token != null) {
-            builder.addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    Request original = chain.request();
-
-                    Request.Builder requestBuilder = original.newBuilder()
-                            .header("Accept", "application/json")
-                            .header("Authorization", token)
-                            .method(original.method(), original.body());
-
-                    Request request = requestBuilder.build();
-                    return chain.proceed(request);
-                }
-            });
-        }
         builder.readTimeout(60 * 1000, TimeUnit.MILLISECONDS);
         return builder.build();
     }

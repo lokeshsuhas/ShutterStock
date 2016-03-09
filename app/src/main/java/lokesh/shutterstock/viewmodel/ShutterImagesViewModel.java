@@ -1,6 +1,7 @@
 package lokesh.shutterstock.viewmodel;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.view.View;
@@ -33,6 +34,9 @@ public class ShutterImagesViewModel implements IViewModel {
 
     @Inject
     ShutterService shutterService;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     private boolean hasMore = true;
     private int pageNo = 1;
@@ -88,7 +92,7 @@ public class ShutterImagesViewModel implements IViewModel {
                 listener.onUpdate(data);
             }
         }
-        shutterService.getImages(pageNo, Constants.PER_PAGE)
+        shutterService.getImages(sharedPreferences.getString(Constants.SP_ACCESS_TOKEN,null),pageNo, Constants.PER_PAGE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ShutterImages>() {

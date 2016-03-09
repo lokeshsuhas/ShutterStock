@@ -21,7 +21,7 @@ import lokesh.shutterstock.viewmodel.MainViewModel;
 public class MainActivity extends ViewModelActivity implements MainViewModel.MainViewListener {
 
     private MainViewModel mainViewModel;
-    private Dialog auth_dialog;
+    private ActivityMainBinding activityMainBinding;
     private Context context;
 
     @Override
@@ -29,8 +29,8 @@ public class MainActivity extends ViewModelActivity implements MainViewModel.Mai
         super.onCreate(savedInstanceState);
         context = this;
         mainViewModel = new MainViewModel(this, this);
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setViewModel(mainViewModel);
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        activityMainBinding.setViewModel(mainViewModel);
     }
 
     @Override
@@ -53,9 +53,6 @@ public class MainActivity extends ViewModelActivity implements MainViewModel.Mai
 
     @Override
     public void onError(String header, String message) {
-        if (auth_dialog != null && auth_dialog.isShowing()) {
-            auth_dialog.dismiss();
-        }
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle(header);
         alertDialog.setMessage(message);
@@ -70,9 +67,6 @@ public class MainActivity extends ViewModelActivity implements MainViewModel.Mai
 
     @Override
     public void onNext() {
-        if (auth_dialog != null && auth_dialog.isShowing()) {
-            auth_dialog.dismiss();
-        }
         Thread timerThread = new Thread() {
             public void run() {
                 try {
@@ -92,8 +86,8 @@ public class MainActivity extends ViewModelActivity implements MainViewModel.Mai
 
     @Override
     public void onLoginClicked() {
-        auth_dialog = new Dialog(MainActivity.this);
-        auth_dialog.setContentView(R.layout.auth_dialog);
+        /*auth_dialog = new Dialog(MainActivity.this);
+        auth_dialog.setContentView(R.layout.auth_dialog);*/
         final AuthViewModel authViewModel = new AuthViewModel(context);
         AuthDialogBinding binding = DataBindingUtil.setContentView(MainActivity.this, R.layout.auth_dialog);
         binding.setViewModel(authViewModel);
@@ -111,14 +105,15 @@ public class MainActivity extends ViewModelActivity implements MainViewModel.Mai
                     authViewModel.setProgressText(context.getString(R.string.progress_auth_token));
                     mainViewModel.getAccessToken(authCode);
                 } else if (url.contains("error=")) {
+                    activityMainBinding= DataBindingUtil.setContentView(MainActivity.this,R.layout.activity_main);
+                    activityMainBinding.setViewModel(mainViewModel);
                     showToast(context.getResources().getString(R.string.error_auth_failed));
-                    auth_dialog.dismiss();
                 }
             }
         });
 
-        auth_dialog.show();
+        /*auth_dialog.show();
         auth_dialog.setTitle(R.string.auth_title);
-        auth_dialog.setCancelable(true);
+        auth_dialog.setCancelable(true);*/
     }
 }
