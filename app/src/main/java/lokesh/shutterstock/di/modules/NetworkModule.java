@@ -33,17 +33,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
 
-    String mBaseUrl;
+    private final String mBaseUrl;
 
-    // Constructor needs one parameter to instantiate.
     public NetworkModule(String baseUrl) {
         this.mBaseUrl = baseUrl;
     }
 
-    // Dagger will only look for methods annotated with @Provides
     @Provides
     @Singleton
-    // Application reference must come from AppModule.class
+        // Application reference must come from AppModule.class
     SharedPreferences providesSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
@@ -86,13 +84,12 @@ public class NetworkModule {
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
 
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(mBaseUrl)
                 .client(okHttpClient)
                 .build();
-        return retrofit;
     }
 
 
@@ -109,8 +106,7 @@ public class NetworkModule {
         });
         builder.cache(new Cache(application.getCacheDir(), Integer.MAX_VALUE));
         OkHttp3Downloader okHttpDownloader = new OkHttp3Downloader(builder.build());
-        Picasso picasso = new Picasso.Builder(application).downloader(okHttpDownloader).build();
-        return picasso;
+        return new Picasso.Builder(application).downloader(okHttpDownloader).build();
     }
 
 

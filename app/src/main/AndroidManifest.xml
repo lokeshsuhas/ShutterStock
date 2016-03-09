@@ -22,9 +22,8 @@
             </intent-filter>
         </activity>
         <activity
-
             android:name=".view.ShutterImageActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
     </application>
 
 </manifest>

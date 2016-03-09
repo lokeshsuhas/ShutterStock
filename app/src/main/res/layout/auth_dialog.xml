@@ -1,36 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+        <import type="android.view.View" />
 
+        <variable
+            name="viewModel"
+            type="lokesh.shutterstock.viewmodel.AuthViewModel" />
+    </data>
     <LinearLayout
-        android:visibility="visible"
-        android:id="@+id/progressLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_vertical|center_horizontal"
-        android:layout_gravity="center"
-        android:padding="20dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:text="Loading..Please wait"
-            android:id="@+id/progressText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <WebView
-        android:id="@+id/webv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/progressLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            app:visibility="@{viewModel.showProgress ? View.VISIBLE: View.GONE}">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/progressText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.progressText}" />
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/webv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:visibility="@{!viewModel.showProgress ? View.VISIBLE: View.GONE}" />
+
+    </LinearLayout>
+</layout>

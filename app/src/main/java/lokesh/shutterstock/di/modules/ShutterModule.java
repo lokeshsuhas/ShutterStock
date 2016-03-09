@@ -13,7 +13,7 @@ import retrofit2.Retrofit;
 public class ShutterModule {
 
     @Provides
-    @UserScope // needs to be consistent with the component scope
+    @UserScope
     public ShutterService providesShutterService(Retrofit retrofit) {
         return retrofit.create(ShutterService.class);
     }

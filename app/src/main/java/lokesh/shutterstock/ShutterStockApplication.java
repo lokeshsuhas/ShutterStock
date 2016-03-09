@@ -5,10 +5,10 @@ import android.content.Context;
 
 import lokesh.shutterstock.di.components.DaggerNetworkComponent;
 import lokesh.shutterstock.di.components.DaggerShutterComponent;
-import lokesh.shutterstock.di.modules.ApplicationModule;
 import lokesh.shutterstock.di.components.NetworkComponent;
-import lokesh.shutterstock.di.modules.NetworkModule;
 import lokesh.shutterstock.di.components.ShutterComponent;
+import lokesh.shutterstock.di.modules.ApplicationModule;
+import lokesh.shutterstock.di.modules.NetworkModule;
 import lokesh.shutterstock.di.modules.ShutterModule;
 
 /**
@@ -17,6 +17,16 @@ import lokesh.shutterstock.di.modules.ShutterModule;
 public class ShutterStockApplication extends Application {
     private NetworkComponent mNetComponent;
     private ShutterComponent mShutterComponent;
+
+    /***
+     * Get ShutterStock Application instance
+     *
+     * @param context
+     * @return ShutterStockApplication
+     */
+    public static ShutterStockApplication getInstance(Context context) {
+        return (ShutterStockApplication) context.getApplicationContext();
+    }
 
     @Override
     public void onCreate() {
@@ -32,16 +42,21 @@ public class ShutterStockApplication extends Application {
                 .build();
     }
 
+    /***
+     * Get the shutter componenet instance
+     *
+     * @return ShutterComponent
+     */
     public ShutterComponent getShutterComponent() {
         return mShutterComponent;
     }
 
+    /***
+     * Get the Network component instance
+     *
+     * @return NetworkComponent
+     */
     public NetworkComponent getNetworkComponent() {
         return mNetComponent;
-    }
-
-    public static ShutterStockApplication getInstance(Context context)
-    {
-        return (ShutterStockApplication) context.getApplicationContext();
     }
 }

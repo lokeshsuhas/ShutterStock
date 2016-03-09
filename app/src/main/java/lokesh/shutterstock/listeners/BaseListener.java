@@ -5,5 +5,6 @@ package lokesh.shutterstock.listeners;
  */
 public interface BaseListener {
     void onError(String header, String message);
+
     void onNext();
 }

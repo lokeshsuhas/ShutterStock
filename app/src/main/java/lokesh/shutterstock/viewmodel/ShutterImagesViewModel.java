@@ -39,7 +39,6 @@ public class ShutterImagesViewModel implements IViewModel {
     private int retryCount = 3;
     private List<Item> data;
     private ShutterImageListener listener;
-    private boolean isFirstBatchLoaded = false;
 
     public ShutterImagesViewModel(Context context, ShutterImageListener listener) {
         this.listener = listener;
@@ -47,10 +46,15 @@ public class ShutterImagesViewModel implements IViewModel {
         showInfo = new ObservableBoolean(false);
         showFirstBatchProgress = new ObservableBoolean(true);
         showRecyclerView = new ObservableBoolean(false);
-        infoMessage = new ObservableField<String>("");
+        infoMessage = new ObservableField<>("");
         ShutterStockApplication.getInstance(context).getShutterComponent().inject(this);
     }
 
+    /***
+     * Check whether there are items to load and also is it already loading
+     *
+     * @return boolean
+     */
     public boolean isHasMore() {
         return hasMore && !(data.get(data.size() - 1) instanceof Footer);
     }
@@ -74,8 +78,11 @@ public class ShutterImagesViewModel implements IViewModel {
         data = null;
     }
 
+    /***
+     * Load the shutter images
+     */
     public void loadShutterImages() {
-        if(!showFirstBatchProgress.get()) {
+        if (!showFirstBatchProgress.get()) {
             data.add(new Footer());
             if (listener != null) {
                 listener.onUpdate(data);
@@ -87,8 +94,7 @@ public class ShutterImagesViewModel implements IViewModel {
                 .subscribe(new Subscriber<ShutterImages>() {
                     @Override
                     public void onCompleted() {
-                        if(pageNo == 1)
-                        {
+                        if (pageNo == 1) {
                             showFirstBatchProgress.set(false);
                         }
                         showRecyclerView.set(!showInfo.get() && !showFirstBatchProgress.get());
@@ -97,7 +103,7 @@ public class ShutterImagesViewModel implements IViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(!showFirstBatchProgress.get()) {
+                        if (!showFirstBatchProgress.get()) {
                             int size = data.size();
                             data.remove(size - 1);
                             if (listener != null) {
@@ -110,8 +116,7 @@ public class ShutterImagesViewModel implements IViewModel {
                         } else {
                             if (listener != null && !showFirstBatchProgress.get()) {
                                 listener.onError("Error", "Can't load image,Please check your internet settings or try after sometime");
-                            }
-                            else {
+                            } else {
                                 showFirstBatchProgress.set(false);
                                 infoMessage.set("Please check your internet settings or click retry");
                                 showInfo.set(true);
@@ -123,7 +128,7 @@ public class ShutterImagesViewModel implements IViewModel {
                     public void onNext(ShutterImages shutterImages) {
                         if (shutterImages.getData().size() > 0) {
                             retryCount = 3;
-                            if(!showFirstBatchProgress.get()) {
+                            if (!showFirstBatchProgress.get()) {
                                 int size = data.size();
                                 data.remove(size - 1);
                             }
@@ -141,12 +146,20 @@ public class ShutterImagesViewModel implements IViewModel {
                 });
     }
 
+    /***
+     * Click event of retry button on network failures
+     *
+     * @param view
+     */
     public void getRetryButton_clicked(View view) {
         showInfo.set(false);
         showFirstBatchProgress.set(true);
         loadShutterImages();
     }
 
+    /***
+     * Listener to bind with the activity
+     */
     public interface ShutterImageListener extends BaseListener {
         void onUpdate(List<Item> data);
 

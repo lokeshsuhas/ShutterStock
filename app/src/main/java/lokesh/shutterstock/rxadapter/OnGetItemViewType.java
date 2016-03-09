@@ -1,5 +1,8 @@
 package lokesh.shutterstock.rxadapter;
 
-public abstract class OnGetItemViewType {
+/***
+ * Created by Lokesh on 04-03-2016.
+ */
+abstract class OnGetItemViewType {
     protected abstract int getItemViewType(int position);
 }

@@ -25,24 +25,25 @@ import rx.schedulers.Schedulers;
  */
 public class MainViewModel implements IViewModel {
 
-    public ObservableField<String> accessToken;
+    public ObservableField<String> token;
+
     @Inject
     ShutterService shutterService;
     @Inject
     SharedPreferences preferences;
-    private AccessToken token;
+
     private MainViewListener listener;
 
     public MainViewModel(Context context, MainViewListener listener) {
         this.listener = listener;
         ShutterStockApplication.getInstance(context).getShutterComponent().inject(this);
-        accessToken = new ObservableField<>(null);
+        token = new ObservableField<>(null);
     }
 
     @Override
     public void onResume() {
-        accessToken.set(preferences.getString(Constants.SP_ACCESS_TOKEN, null));
-        if (accessToken.get() != null) {
+        token.set(preferences.getString(Constants.SP_ACCESS_TOKEN, null));
+        if (token.get() != null) {
             if (listener != null) {
                 listener.onNext();
             }
@@ -60,7 +61,11 @@ public class MainViewModel implements IViewModel {
     }
 
 
-    // get the access token
+    /***
+     * Get the Access token
+     *
+     * @param code
+     */
     public void getAccessToken(String code) {
         Map<String, String> data = new HashMap<>();
         data.put("client_id", Constants.CLIENT_ID);
@@ -73,7 +78,7 @@ public class MainViewModel implements IViewModel {
                 .subscribe(new Subscriber<AccessToken>() {
                     @Override
                     public void onCompleted() {
-                        preferences.edit().putString(Constants.SP_ACCESS_TOKEN, token.getTokenType() + " " + token.getAccessToken()).commit();
+                        preferences.edit().putString(Constants.SP_ACCESS_TOKEN, token.get()).apply();
                         if (listener != null) {
                             listener.onNext();
                         }
@@ -88,17 +93,25 @@ public class MainViewModel implements IViewModel {
 
                     @Override
                     public void onNext(AccessToken accessToken) {
-                        token = accessToken;
+                        token.set(accessToken.getTokenType() + " " + accessToken.getAccessToken());
                     }
                 });
     }
 
+    /***
+     * Click event of login button
+     *
+     * @param view
+     */
     public void getloginButton_clicked(View view) {
         if (listener != null) {
             listener.onLoginClicked();
         }
     }
 
+    /***
+     * Listener to bind with the activity
+     */
     public interface MainViewListener extends BaseListener {
         void onLoginClicked();
     }

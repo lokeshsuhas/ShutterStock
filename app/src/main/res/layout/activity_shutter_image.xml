@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="Loading..Please wait"
+                android:text="@string/progress_text"
                 android:id="@+id/progressText"
                 android:textColor="@color/colorWhite"
                 android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/icons"
                 android:onClick="@{viewModel.getRetryButton_clicked}"
-                android:text="Retry"
+                android:text="@string/xml_retry"
                 android:textColor="@color/colorPrimary" />
 
         </LinearLayout>

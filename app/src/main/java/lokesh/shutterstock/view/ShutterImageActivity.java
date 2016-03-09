@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
+import lokesh.shutterstock.Constants;
 import lokesh.shutterstock.R;
 import lokesh.shutterstock.databinding.ActivityShutterImageBinding;
 import lokesh.shutterstock.databinding.RecyclerItemBinding;
@@ -23,10 +24,9 @@ import lokesh.shutterstock.viewmodel.ShutterImagesViewModel;
 public class ShutterImageActivity extends ViewModelActivity implements ShutterImagesViewModel.ShutterImageListener {
     private static Bundle mBundleRecyclerViewState;
 
-    private final String KEY_RECYCLER_STATE = "recycler_state";
-    private final String KEY_RECYCLER_SCROLL_POSITION = "recycler_state_scroll_position";
-    ShutterImagesViewModel viewModel;
-    ActivityShutterImageBinding mShutterImageBinding;
+
+    private ShutterImagesViewModel viewModel;
+    private ActivityShutterImageBinding mShutterImageBinding;
     private RxImageDataSource dataSource;
     private Context context;
 
@@ -39,7 +39,7 @@ public class ShutterImageActivity extends ViewModelActivity implements ShutterIm
 
         viewModel = new ShutterImagesViewModel(this, this);
         mShutterImageBinding.setViewModel(viewModel);
-        mShutterImageBinding.toolbar.setTitle("Shutter Stock Images");
+        mShutterImageBinding.toolbar.setTitle(R.string.toolbar_title_shutter);
         setSupportActionBar(mShutterImageBinding.toolbar);
     }
 
@@ -60,14 +60,14 @@ public class ShutterImageActivity extends ViewModelActivity implements ShutterIm
     @Override
     public void onPause() {
         super.onPause();
-        GridLayoutManager layoutManager = (GridLayoutManager)mShutterImageBinding.RecyclerView.getLayoutManager();
-        if(layoutManager != null) {
+        GridLayoutManager layoutManager = (GridLayoutManager) mShutterImageBinding.RecyclerView.getLayoutManager();
+        if (layoutManager != null) {
             mBundleRecyclerViewState = new Bundle();
             Parcelable listState = mShutterImageBinding.RecyclerView.getLayoutManager().onSaveInstanceState();
-            mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, listState);
+            mBundleRecyclerViewState.putParcelable(Constants.KEY_RECYCLER_STATE, listState);
             SavedState newState = new SavedState(listState);
             newState.mScrollPosition = ((GridLayoutManager) mShutterImageBinding.RecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-            mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_SCROLL_POSITION, newState);
+            mBundleRecyclerViewState.putParcelable(Constants.KEY_RECYCLER_SCROLL_POSITION, newState);
         }
         viewModel.onPause();
     }
@@ -76,18 +76,18 @@ public class ShutterImageActivity extends ViewModelActivity implements ShutterIm
     @Override
     protected void onResume() {
         super.onResume();
-        GridLayoutManager layoutManager = (GridLayoutManager)mShutterImageBinding.RecyclerView.getLayoutManager();
+        GridLayoutManager layoutManager = (GridLayoutManager) mShutterImageBinding.RecyclerView.getLayoutManager();
         // restore RecyclerView state
-        if (mBundleRecyclerViewState != null && layoutManager!= null) {
-            Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+        if (mBundleRecyclerViewState != null && layoutManager != null) {
+            Parcelable listState = mBundleRecyclerViewState.getParcelable(Constants.KEY_RECYCLER_STATE);
             layoutManager.onRestoreInstanceState(listState);
             //restore the scroll state
-            Parcelable scrollState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_SCROLL_POSITION);
-            if(scrollState != null && scrollState instanceof SavedState){
+            Parcelable scrollState = mBundleRecyclerViewState.getParcelable(Constants.KEY_RECYCLER_SCROLL_POSITION);
+            if (scrollState != null && scrollState instanceof SavedState) {
                 int mScrollPosition = ((SavedState) scrollState).mScrollPosition;
-                if(layoutManager != null){
+                if (layoutManager != null) {
                     int count = layoutManager.getChildCount();
-                    if(mScrollPosition != RecyclerView.NO_POSITION && mScrollPosition < count){
+                    if (mScrollPosition != RecyclerView.NO_POSITION && mScrollPosition < count) {
                         layoutManager.scrollToPosition(mScrollPosition);
                     }
                 }
@@ -125,6 +125,9 @@ public class ShutterImageActivity extends ViewModelActivity implements ShutterIm
         showToast("No more items to load up!");
     }
 
+    /***
+     * Setup the Recyclerview
+     */
     private void setRecyclerView() {
         dataSource
                 .<RecyclerItemBinding>bindRecyclerView(mShutterImageBinding.RecyclerView)
@@ -132,11 +135,8 @@ public class ShutterImageActivity extends ViewModelActivity implements ShutterIm
                     @Override
                     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                         super.onScrolled(recyclerView, dx, dy);
-                        if (viewModel.isHasMore()) {
-                            GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
-                            if (layoutManager.findLastCompletelyVisibleItemPosition() >= layoutManager.getItemCount() - 3) {
-                                viewModel.loadShutterImages();
-                            }
+                        if (viewModel.isHasMore() && dataSource.isScrolledEnd()) {
+                            viewModel.loadShutterImages();
                         }
                     }
                 });

@@ -11,7 +11,9 @@ public class Constants {
     public final static String CC_GRANT_TYPE = "client_credentials";
     public final static String REDIRECT_URL = "http://localhost";
     public final static String SP_ACCESS_TOKEN = "accesstoken";
-    public final static Integer PER_PAGE=10;
-    public final static Integer COLUMN_PORTRAIT=3;
-    public final static Integer COLUMN_LANDSCAPE=4;
+    public final static Integer PER_PAGE = 10;
+    public final static Integer COLUMN_PORTRAIT = 3;
+    public final static Integer COLUMN_LANDSCAPE = 4;
+    public final static String KEY_RECYCLER_STATE = "recycler_state";
+    public final static String KEY_RECYCLER_SCROLL_POSITION = "recycler_state_scroll_position";
 }

@@ -13,7 +13,9 @@ import retrofit2.Retrofit;
 
 /**
  * Created by Lokesh on 03-03-2016.
+ * Network component to return the network related apis
  */
+
 @Singleton
 @Component(modules = {ApplicationModule.class, NetworkModule.class})
 public interface NetworkComponent {

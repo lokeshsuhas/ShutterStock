@@ -1,11 +1,10 @@
-
 package lokesh.shutterstock.model;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class ShutterImages {
 
@@ -23,93 +22,73 @@ public class ShutterImages {
     private String searchId;
     @SerializedName("data")
     @Expose
-    private List<Datum> data = new ArrayList<Datum>();
+    private List<Datum> data = new ArrayList<>();
 
     /**
-     * 
-     * @return
-     *     The page
+     * @return The page
      */
     public Integer getPage() {
         return page;
     }
 
     /**
-     * 
-     * @param page
-     *     The page
+     * @param page The page
      */
     public void setPage(Integer page) {
         this.page = page;
     }
 
     /**
-     * 
-     * @return
-     *     The perPage
+     * @return The perPage
      */
     public Integer getPerPage() {
         return perPage;
     }
 
     /**
-     * 
-     * @param perPage
-     *     The per_page
+     * @param perPage The per_page
      */
     public void setPerPage(Integer perPage) {
         this.perPage = perPage;
     }
 
     /**
-     * 
-     * @return
-     *     The totalCount
+     * @return The totalCount
      */
     public Integer getTotalCount() {
         return totalCount;
     }
 
     /**
-     * 
-     * @param totalCount
-     *     The total_count
+     * @param totalCount The total_count
      */
     public void setTotalCount(Integer totalCount) {
         this.totalCount = totalCount;
     }
 
     /**
-     * 
-     * @return
-     *     The searchId
+     * @return The searchId
      */
     public String getSearchId() {
         return searchId;
     }
 
     /**
-     * 
-     * @param searchId
-     *     The search_id
+     * @param searchId The search_id
      */
     public void setSearchId(String searchId) {
         this.searchId = searchId;
     }
 
     /**
-     * 
-     * @return
-     *     The data
+     * @return The data
      */
     public List<Datum> getData() {
         return data;
     }
 
     /**
-     * 
-     * @param data
-     *     The data
+     * @param data The data
      */
     public void setData(List<Datum> data) {
         this.data = data;

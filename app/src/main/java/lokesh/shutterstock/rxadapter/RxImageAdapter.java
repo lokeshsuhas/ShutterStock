@@ -7,18 +7,21 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import lokesh.shutterstock.Constants;
 import lokesh.shutterstock.Utils;
 import rx.subjects.PublishSubject;
 
-/**
- * Created by ahmedrizwan on 10/12/2015.
+/***
+ * Created by Lokesh on 04-03-2016.
+ *
+ * @param <T>
  */
 public class RxImageAdapter<T> extends RecyclerView.Adapter<TypesViewHolder<T>> {
 
     private List<T> mDataSet;
-    private List<ViewHolderInfo> mViewHolderInfoList;
-    private OnGetItemViewType mViewTypeCallback;
-    private PublishSubject<TypesViewHolder<T>> mPublishSubject;
+    private final List<ViewHolderInfo> mViewHolderInfoList;
+    private final OnGetItemViewType mViewTypeCallback;
+    private final PublishSubject<TypesViewHolder<T>> mPublishSubject;
     private int mGridItemWidth;
     private int mGridItemHeight;
 
@@ -29,7 +32,11 @@ public class RxImageAdapter<T> extends RecyclerView.Adapter<TypesViewHolder<T>> 
         mPublishSubject = PublishSubject.create();
     }
 
-
+    /***
+     * Get the Publish Subject as observable
+     *
+     * @return Observable<TypesViewHolder<T>>
+     */
     public rx.Observable<TypesViewHolder<T>> asObservable() {
         return mPublishSubject.asObservable();
     }
@@ -68,23 +75,39 @@ public class RxImageAdapter<T> extends RecyclerView.Adapter<TypesViewHolder<T>> 
         return mViewTypeCallback.getItemViewType(position);
     }
 
+    /***
+     * Get the dataset
+     *
+     * @return dataset
+     */
     public List<T> getDataSet() {
         return mDataSet;
     }
 
+    /***
+     * Update the underlying dataset and notify the changes
+     *
+     * @param dataSet
+     */
     public void updateDataSet(List<T> dataSet) {
         mDataSet = dataSet;
         notifyDataSetChanged();
     }
 
+    /***
+     * Get the grid layout params based on the orientation
+     *
+     * @param view
+     * @return
+     */
     private ViewGroup.LayoutParams getGridItemLayoutParams(View view) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         int screenWidth = Utils.getScreenWidth(view.getContext());
         int numOfColumns;
         if (Utils.isInLandscapeMode(view.getContext())) {
-            numOfColumns = 4;
+            numOfColumns = Constants.COLUMN_LANDSCAPE;
         } else {
-            numOfColumns = 3;
+            numOfColumns = Constants.COLUMN_PORTRAIT;
         }
 
         mGridItemWidth = screenWidth / numOfColumns;
