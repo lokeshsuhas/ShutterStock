@@ -66,7 +66,6 @@ Shutter Stock Images API app using MVVM ,RXJava, Dagger2
   
 ##Patterns Used
   1. **MVVM** whole design pattern with Data binding
-  2. **Builder Pattern** for Adapter Source
   
 ##Shutter Stock URLS
 ```
