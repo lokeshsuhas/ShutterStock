@@ -2,6 +2,7 @@ package lokesh.shutterstock;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 
 import lokesh.shutterstock.di.components.DaggerNetworkComponent;
 import lokesh.shutterstock.di.components.DaggerShutterComponent;
@@ -14,7 +15,7 @@ import lokesh.shutterstock.di.modules.ShutterModule;
 /**
  * Created by Lokesh on 03-03-2016.
  */
-public class ShutterStockApplication extends Application {
+public class ShutterStockApplication extends MultiDexApplication {
     private NetworkComponent mNetComponent;
     private ShutterComponent mShutterComponent;
 

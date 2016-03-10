@@ -55,6 +55,24 @@ public class ShutterImagesViewModel implements IViewModel {
     }
 
     /***
+     * Set the dataset
+     * @param data
+     */
+    public void setDataSet(List<Item> data)
+    {
+        this.data = data;
+    }
+
+    /***
+     * Set has more to load
+     * @param more
+     */
+    public void setHasMore(boolean more)
+    {
+        this.hasMore = more;
+    }
+
+    /***
      * Check whether there are items to load and also is it already loading
      *
      * @return boolean

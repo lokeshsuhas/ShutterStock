@@ -9,11 +9,15 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.AbsListView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import lokesh.shutterstock.Constants;
 import lokesh.shutterstock.R;
+import lokesh.shutterstock.ShutterStockApplication;
 import lokesh.shutterstock.databinding.ActivityShutterImageBinding;
 import lokesh.shutterstock.databinding.RecyclerItemBinding;
 import lokesh.shutterstock.model.Item;
@@ -24,7 +28,7 @@ import lokesh.shutterstock.viewmodel.ShutterImagesViewModel;
 public class ShutterImageActivity extends ViewModelActivity implements ShutterImagesViewModel.ShutterImageListener {
     private static Bundle mBundleRecyclerViewState;
 
-
+    private static final Object scrollTag = new Object();
     private ShutterImagesViewModel viewModel;
     private ActivityShutterImageBinding mShutterImageBinding;
     private RxImageDataSource dataSource;

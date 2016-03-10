@@ -33,7 +33,9 @@ public class AuthViewModel implements IViewModel {
      * @param value
      */
     public void setProgressText(String value) {
-        progressText.set(value);
+        if(value != null) {
+            progressText.set(value);
+        }
     }
 
     @Override

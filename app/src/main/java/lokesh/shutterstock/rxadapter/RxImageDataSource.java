@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import lokesh.shutterstock.Constants;
 import lokesh.shutterstock.R;
 import lokesh.shutterstock.ShutterStockApplication;
 import lokesh.shutterstock.Utils;
@@ -43,6 +44,7 @@ public class RxImageDataSource {
      * @param dataSet
      */
     public RxImageDataSource(Context context, List<Item> dataSet) {
+
         this.mDataSet = dataSet;
         this.context = context;
         picasso = ShutterStockApplication.getInstance(context).getNetworkComponent().picasso();
@@ -67,6 +69,9 @@ public class RxImageDataSource {
      */
     public RxImageDataSource bindRecyclerView(
             @NonNull final RecyclerView recyclerView) {
+        if (recyclerView == null)
+            throw new NullPointerException("Recycler view cannot be null");
+
         this.recyclerView = recyclerView;
         bindRVLayoutManager();
         bindRVAdapters();
@@ -123,7 +128,7 @@ public class RxImageDataSource {
                 if (b != null && b instanceof RecyclerItemBinding) {
                     final RecyclerItemBinding iB = (RecyclerItemBinding) b;
                     Datum item = (Datum) viewHolder.getItem();
-                    if (item != null) {
+                    if (item != null && item.getAssets() != null && item.getAssets().getPreview() != null) {
                         picasso.load(Uri.parse(item.getAssets().getPreview().getUrl()))
                                 .resize(viewHolder.getWidth(), viewHolder.getHeight())
                                 .centerCrop()
@@ -150,9 +155,9 @@ public class RxImageDataSource {
         }
 
         if (Utils.isInLandscapeMode(context)) {
-            numOfColumns = 4;
+            numOfColumns = Constants.COLUMN_LANDSCAPE;
         } else {
-            numOfColumns = 3;
+            numOfColumns = Constants.COLUMN_PORTRAIT;
         }
         GridLayoutManager mLayoutManager = new GridLayoutManager(context, numOfColumns);
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
